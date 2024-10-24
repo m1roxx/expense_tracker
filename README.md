@@ -1,16 +1,15 @@
-# expense_tracker
+# Expense Tracker
 
-A new Flutter project.
+## How to Run
 
-## Getting Started
+### Clone the repository
 
-This project is a starting point for a Flutter application.
+<pre><code>https://github.com/m1roxx/expense_tracker.git</code></pre>
 
-A few resources to get you started if this is your first Flutter project:
+### Install the dependencies
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<pre><code>flutter pub get</code></pre>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Run the app
+
+<pre><code>flutter run</code></pre>
