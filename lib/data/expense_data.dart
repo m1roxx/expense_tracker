@@ -24,6 +24,15 @@ class ExpenseData extends ChangeNotifier{
     db.saveData(overallExpenseList);
   }
 
+  void updateExpense(ExpenseItem updatedExpense) {
+    int index = overallExpenseList.indexWhere((expense) => expense.id == updatedExpense.id);
+    if (index != -1) {
+      overallExpenseList[index] = updatedExpense;
+      notifyListeners();
+      db.saveData(overallExpenseList); 
+    }
+  }
+
   final db = HiveDataBase();
   void prepareData() {
     if (db.readData().isNotEmpty) {

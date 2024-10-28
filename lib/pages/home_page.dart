@@ -129,19 +129,124 @@ class _HomePageState extends State<HomePage> {
   }
 
   void editExpense(ExpenseItem expense) {
+    newExpenseNameController.text = expense.name;
+    var amountParts = expense.amount.split('.');
+    newExpenseDollarsController.text = amountParts[0];
+    newExpenseCentsController.text = amountParts.length > 1 ? amountParts[1] : '';
+
     showDialog(
       context: context, 
       builder: (context) => AlertDialog(
-        title: Text(
-          "Edit Expense",
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        title: const Text(
+          "Edit expense",
           style: TextStyle(
-            fontSize: 22
+            fontSize: 22,
           ),
-          
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: newExpenseNameController,
+              decoration: const InputDecoration(
+                hintText: "Name",
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2
+                  )
+                )
+              ),
+            ),
+
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: newExpenseDollarsController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: "Dollars",
+                      hintStyle: TextStyle(
+                        color: Colors.grey
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 2
+                        )
+                      )
+                    ),
+                  ),
+                ),
+
+                Expanded(
+                  child: TextField(
+                    controller: newExpenseCentsController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: "Cents",
+                      hintStyle: TextStyle(
+                        color: Colors.grey
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 2
+                        )
+                      )
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
 
-      ),
+        actions: [
+          MaterialButton(
+            onPressed: () => edit(expense),
+            child: Text(
+              "Save",
+              style: TextStyle(
+                color: Colors.grey[800]
+              ),
+            ),
+          ),
+
+          MaterialButton(
+            onPressed: cancel,
+            child: Text(
+              "Cancel",
+              style: TextStyle(
+                color: Colors.grey[800]
+              ),  
+            ),
+          ),
+        ],
+      )
     );
+  }
+
+  void edit(ExpenseItem expense) {
+    if (newExpenseNameController.text.isNotEmpty && newExpenseDollarsController.text.isNotEmpty) {
+      String updatedAmount = newExpenseDollarsController.text;
+      if (newExpenseCentsController.text.isNotEmpty) {
+        updatedAmount += ".${newExpenseCentsController.text}";
+      }
+
+      expense.name = newExpenseNameController.text;
+      expense.amount = updatedAmount;
+
+      Provider.of<ExpenseData>(context, listen: false).updateExpense(expense);
+
+      Navigator.pop(context);
+      clearController();
+    }
   }
 
   void save() {

@@ -1,11 +1,16 @@
+import 'package:uuid/uuid.dart';
+
 class ExpenseItem {
-  final String name;
-  final String amount;
+  static final Uuid _uuid = Uuid();
+
+  final String id;
+  String name;
+  String amount;
   final DateTime dateTime;
 
   ExpenseItem({
     required this.name,
     required this.amount,
     required this.dateTime,
-  });
+  }) : id = _uuid.v4();
 }
